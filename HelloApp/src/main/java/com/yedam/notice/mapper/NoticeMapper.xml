@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.notice.mapper.NoticeMapper">
+	<select id="searchNotice" parameterType="int" resultType="notice">
+		select * from tbl_notice where notice_id = #{noticeId}
+	</select>
+	<select id="noticeList" resultType="notice">
+		select * from tbl_notice
+		order by 1 desc
+	</select>
+	<insert id="insertNotice" parameterType="notice">
+		insert into
+		tbl_notice(notice_id, notice_writer, notice_title, notice_subject)
+		values(notice_seq.nextval, #{noticeWriter}, #{noticeTitle}, #{noticeSubject})
+	</insert>
+	<insert id="updateNotice" parameterType="notice">
+		update tbl_notice
+		set notice_title = #{noticeTitle}, notice_subject = #{notice_subject}
+		where notice_id = #{noticeId}
+	</insert>
+	<delete id="deleteNotice" parameterType="int">
+		delete from tbl_notice
+		where notice_id = #{noticeId}
+	</delete>
+</mapper>

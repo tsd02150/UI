@@ -32,8 +32,9 @@ public class FrontController extends HttpServlet{
 		map.put("/addMember.do", new AddMemberControl());
 		map.put("/delMemberForm.do", new delMemberFormControl());
 		map.put("/delMember.do", new delMemberControl());
-		map.put("/loginForm.do", new loginFormControl());
-		map.put("/login.do", new loginControl());
+		map.put("/loginForm.do", new LoginFormControl());
+		map.put("/login.do", new LoginControl());
+		map.put("/logout.do", new LogoutControl());
 	}
 	
 	@Override
@@ -47,7 +48,7 @@ public class FrontController extends HttpServlet{
 		// context : 프로젝트 이름
 		String context = req.getContextPath(); // /HelloWeb
 		String page = uri.substring(context.length());
-		
+
 		System.out.println(map.get(page));
 		
 		Control control = map.get(page);
