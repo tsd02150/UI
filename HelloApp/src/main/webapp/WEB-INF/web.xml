@@ -12,7 +12,7 @@
   		<param-name>enc</param-name>
   		<param-value>UTF-8</param-value>
   	</init-param>
-  </servlet>
+  </servlet> 
   <servlet-mapping>
   	<servlet-name>frontControl</servlet-name>
   	<!-- <url-pattern>/front</url-pattern> -->

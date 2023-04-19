@@ -13,6 +13,7 @@
 	${"Hello" }
 	${10 - 5 }
 	${myName }
+	${myName }
 	${myName != null ? '<h3>있음</h3>':'<h3>없음</h3>' }
 </body>
 </html>
