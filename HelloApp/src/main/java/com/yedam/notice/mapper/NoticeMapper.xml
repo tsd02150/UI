@@ -12,16 +12,21 @@
 	</select>
 	<insert id="insertNotice" parameterType="notice">
 		insert into
-		tbl_notice(notice_id, notice_writer, notice_title, notice_subject)
-		values(notice_seq.nextval, #{noticeWriter}, #{noticeTitle}, #{noticeSubject})
+		tbl_notice(notice_id, notice_writer, notice_title, notice_subject, attach_file)
+		values(notice_seq.nextval, #{noticeWriter}, #{noticeTitle}, #{noticeSubject},#{attachFile})
 	</insert>
-	<insert id="updateNotice" parameterType="notice">
+	<update id="updateNotice" parameterType="notice">
 		update tbl_notice
-		set notice_title = #{noticeTitle}, notice_subject = #{notice_subject}
+		set notice_title = #{noticeTitle}, notice_subject = #{noticeSubject}
 		where notice_id = #{noticeId}
-	</insert>
+	</update>
 	<delete id="deleteNotice" parameterType="int">
 		delete from tbl_notice
 		where notice_id = #{noticeId}
 	</delete>
+	<update id="updateCount" parameterType="int">
+		update tbl_notice
+		set hit_count = hit_count+1
+		where notice_id = #{noticeId}
+	</update>
 </mapper>
