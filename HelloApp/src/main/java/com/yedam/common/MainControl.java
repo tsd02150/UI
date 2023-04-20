@@ -12,7 +12,8 @@ public class MainControl implements Control{
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("myName", "HongKildong");
-		return "WEB-INF/views/main.jsp";
+//		return "WEB-INF/views/main.jsp";
+		return "product/productList.tiles";
 	}
 	
 }
