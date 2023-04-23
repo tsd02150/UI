@@ -11,7 +11,7 @@
 		<th>내용</th><td><textarea rows="3" cols="20" name="subject"></textarea></td>
 	<tr>
 	<tr>
-		<th>작성자</th><td><input type="text" name="writer"></td>
+		<th>작성자</th><td><input type="text" name="writer" value="${id!=null?id:'' }"></td>
 	<tr>
 	<tr>
 		<th>첨부파일</th><td><input type="file" name="attach"></td>
