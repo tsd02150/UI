@@ -23,7 +23,8 @@ public class GetNoticeControl implements Control {
 		NoticeService service = new NoticeServiceImpl();
 		NoticeVO vo =service.getNotice(nid);
 		req.setAttribute("noticeInfo", vo);
-		
+		String page=req.getParameter("page");
+		req.setAttribute("pageNum", page);
 		if(vo.getAttachFile()!= null) {
 			String imgPath = req.getServletContext().getRealPath("images");
 			Path file = Paths.get(imgPath + "/"+vo.getAttachFile());

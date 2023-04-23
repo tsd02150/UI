@@ -21,8 +21,9 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<NoticeVO> noticeList() {
-		return mapper.noticeList();
+	public List<NoticeVO> noticeList(int page) {
+//		return mapper.noticeList();
+		return mapper.noticeWithPage(page);
 	}
 
 	@Override
@@ -38,6 +39,11 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public boolean removeNotice(int noticeId) {
 		return mapper.deleteNotice(noticeId) == 1;
+	}
+
+	@Override
+	public int totalCount() {
+		return mapper.getCount();
 	}
 
 }
