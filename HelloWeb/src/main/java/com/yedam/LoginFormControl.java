@@ -13,7 +13,7 @@ public class LoginFormControl implements Control {
 		try {
 			req.getRequestDispatcher("WEB-INF/views/loginForm.jsp").forward(req, resp);
 		} catch (ServletException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

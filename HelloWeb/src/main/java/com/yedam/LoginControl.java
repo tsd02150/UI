@@ -17,7 +17,7 @@ public class LoginControl implements Control {
 		int eid = Integer.parseInt(req.getParameter("uname"));
 		String email = req.getParameter("psw");
 		
-		Employee emp = new Employee();
+		Employee emp =new Employee(); 
 		emp.setEmployeeId(eid);
 		emp.setEmail(email);
 		System.out.println("1:"+emp);
