@@ -11,6 +11,7 @@
 	<typeAliases>
 		<typeAlias alias="employee" type="com.yedam.domain.Employee" />
 		<typeAlias alias="notice" type="com.yedam.notice.domain.NoticeVO" />
+		<typeAlias alias="reply" type="com.yedam.notice.domain.ReplyVO" />
 		<typeAlias alias="member" type="com.yedam.member.domain.MemberVO" />
 	</typeAliases>
 	<environments default="development">
@@ -26,6 +27,7 @@
 	</environments>
 	<mappers>
 		<mapper resource="com/yedam/notice/mapper/NoticeMapper.xml" />
+		<mapper resource="com/yedam/notice/mapper/ReplyMapper.xml" />
 		<mapper resource="com/yedam/member/mapper/MemberMapper.xml" />
 	</mappers>
 </configuration>
