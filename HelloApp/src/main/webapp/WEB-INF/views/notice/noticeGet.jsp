@@ -79,7 +79,7 @@
 	<tbody id="tlist">
 	</tbody>
 </table>
-<table style="display:block;">
+<table style="display:none;">
 	<tbody>
 		<tr class="template">
 			<td>10</td>
