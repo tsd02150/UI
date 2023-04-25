@@ -79,7 +79,16 @@
 	<tbody id="tlist">
 	</tbody>
 </table>
-
+<table style="display:block;">
+	<tbody>
+		<tr class="template">
+			<td>10</td>
+			<td><input type="text" class="reply"></td>
+			<td>user01</td>
+			<td><button>수정</button></td>
+		</tr>
+	</tbody>
+</table>
 
 
 <script>
@@ -132,6 +141,55 @@
 	
 	function makeTrFunc(reply){
 		let tr = document.createElement('tr');
+		
+		//this  1) Object 안에서 사용되면 object자체를 가리킴
+		//		2) function 선언 안에서 this는 window전역객체 <-> 지역
+		//		3) event안에서 사용되는 this는 이벤트를 받는 대상
+		tr.addEventListener('dblclick',function(e){
+			let writer = tr.children[2].innerText;
+			
+			if(writer!='${id}'){
+				alert('권한이 없습니다');
+				return;
+			}
+			for(let contentTlist of document.getElementById('tlist').children){
+				if(contentTlist.className=='template'){
+					alert('이미 수정중인 댓글이 있습니다.');
+					return;
+				}
+			}
+			
+			let template = document.querySelector('.template').cloneNode(true);
+			// template.children[0].innerText = reply.replyId;
+			// template.children[1].children[0].value = reply.reply;
+			// template.children[2].innerText = reply.replyWriter;
+			template.querySelector('td:nth-of-type(1)').innerText = reply.replyId;
+			template.querySelector('td:nth-of-type(2)>input').value = reply.reply;
+			template.querySelector('td:nth-of-type(3)').innerText = reply.replyWriter;
+			template.querySelector('td:nth-of-type(4)>button').addEventListener('click',function(e){
+				let replyId=reply.replyId;
+				let replyContent=this.parentElement.parentElement.children[1].children[0].value;
+				console.log(replyId,replyContent);
+				let xhtp = new XMLHttpRequest();
+				xhtp.open('post','modifyReply.do');
+				xhtp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+				xhtp.send('rid='+replyId+'&reply='+replyContent); 
+				xhtp.onload = function(){
+					let result=JSON.parse(xhtp.response);
+					if(result.retCode=='Success'){
+						// 화면 변경
+						tr.children[1].innerText=result.data.reply;
+						document.getElementById('tlist').replaceChild(tr,template);
+					}else if(result.retCode=='Fail'){
+						alert('처리중 에러');
+					}else{
+						alert('알수없는 반환값');
+					}
+				}
+			});
+			//화면 전환
+			document.getElementById('tlist').replaceChild(template,tr);
+		});
 		for(let prop of showFields){
 			let td = document.createElement('td');
 			td.innerText=reply[prop];
@@ -140,20 +198,27 @@
 		//삭제 버튼
 		let btn = document.createElement('button');
 		btn.addEventListener('click',function(e){
+			let writer = btn.parentElement.previousElementSibling.innerText;
+			
+			if(writer!='${id}'){
+				alert('권한이 없습니다');
+				return;
+			}
+			
 			//밑의 방식으로 받아올수도 있다.
 			//let rid = btn.parentElement.parentElement.children[0].innerText;
 			
 			let xhtp = new XMLHttpRequest();
 			xhtp.open('post','removeReply.do');
 			xhtp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-			xhtp.send('rid='+reply['replyId']);
+			xhtp.send('rid='+reply.replyId); // 요청방식이 post 일 경우에 parameter를 send()에 포함
 			
 			xhtp.onload = function(){
 				let result = JSON.parse(xhtp.response);
 				if(result.retCode=='Success'){
 					btn.parentElement.parentElement.remove(); //제거
 				}else if(result.retCode=='Fail'){
-					alert('처리 중 에러발생')					
+					alert('잘못된 입력입니다.')					
 				}else{
 					alert('알수 없는 결과값입니다.')
 				}
