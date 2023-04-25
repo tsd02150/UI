@@ -28,4 +28,16 @@ public class ReplyServiceImpl implements ReplyService{
 		return mapper.deleteReply(replyId)==1;
 	}
 
+	@Override
+	public boolean modifyReply(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.updateReply(vo)==1;
+	}
+
+	@Override
+	public ReplyVO getReply(int replyId) {
+		// TODO Auto-generated method stub
+		return mapper.searchReply(replyId);
+	}
+	
 }
