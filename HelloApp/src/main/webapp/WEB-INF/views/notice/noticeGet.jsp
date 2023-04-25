@@ -220,7 +220,7 @@
 				}else if(result.retCode=='Fail'){
 					alert('잘못된 입력입니다.')					
 				}else{
-					alert('알수 없는 결과값입니다.')
+					alert('알수 없는 결과값.')
 				}
 			}
 		});
