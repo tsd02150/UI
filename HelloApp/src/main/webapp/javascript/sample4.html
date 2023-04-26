@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p>sample4</p>
+	<ul id="list">
+	<li>1, kildong, Hong, 2334</li>
+	</ul>
+	<script>
+		let xhtp = new XMLHttpRequest(); // 비동기방식 처리.
+		xhtp.open('get','MOCK_DATA.json');
+		xhtp.send();
+		xhtp.onload = function(){
+			//console.log(JSON.parse(xhtp.response));
+		}
+		fetch('MOCK_DATA.json').then(function(resolve){
+			console.log('success');
+			return resolve.text(); //
+		},function(){
+			console.log('error');
+		})
+		.then(function(result){
+			console.log('success : '+result);
+		},function(error){
+			console.log('error : '+error);
+		});
+		
+		
+		fetch('MOCK_DATA.json')
+		.then( resolve => resolve.json() ) // text()
+		.then(result => { 
+			console.log(result); 
+			let ul = document.querySelector("#list");
+			for(let i=0;i<result.length;i++){
+				let li = document.createElement('li');
+				li.innerText = result[i].id+", "+result[i].first_name+", "+result[i].last_name+", "+result[i].salary;
+				ul.append(li);
+			}
+		})
+		.catch(error => console.log(error) );
+	</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p>진료소 현황</p>
+	<select id="sido">
+	</select>	
+	<button id="searchBtn">조회</button>
+	
+	<table border='1'>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>주소</th>
+				<th>센터이름</th>
+				<th>facilityName</th>
+			</tr>
+		</thead>
+		<tbody id="tlist">
+
+		</tbody>
+	</table>
+	<script>
+	let url = `https://api.odcloud.kr/api/15077586/v1/centers?page=1&perPage=284&serviceKey=2Ty16FHtqKEzO%2BqOMfaqyU6BjHFRao4HW4JyAjbvZMjbIucyPrl2CX%2FKNWBsO6WMLVHsse8zTQwdew1%2BESQsfA%3D%3D`;
+	let showFields = ['id','centerName','address','facilityName'];
+	let allCenter;
+	let tlist=document.querySelector('#tlist');
+	
+	fetch(url)
+	.then(resolve => resolve.json())
+	.then(result => {
+		allCenter = result.data; // 조회된 결과를 저장
+		let sidoAry = [];
+		// sido정보 => 중복된값을 제거 새로운 배열
+		result.data.forEach(element => {
+			if(sidoAry.indexOf(element.sido)<0){
+				sidoAry.push(element.sido);	
+			}
+		});
+		
+		let select = document.getElementById("sido");
+		sidoAry.forEach(sidoItem =>{
+			let option = document.createElement('option');
+			option.value=sidoItem;
+			option.innerText=sidoItem;
+			select.append(option);			
+		});		
+		
+		result.data.forEach(element => {
+			let searchKey =document.getElementById("sido").value;
+			if(element.sido==searchKey){
+				tlist.append(makeRow(element));
+			}
+		});
+	})
+	.catch(error => console.log(error));
+	
+	document.getElementById("searchBtn").addEventListener('click',function(){
+		let searchKey = document.getElementById("sido").value;
+		findList(searchKey);
+	});
+	
+	function makeRow(center={}){
+		let tr = document.createElement('tr');
+		tr.addEventListener('click',function(){
+			location.href='map.jsp?lat='+center.lat+"&lng="+center.lng+"&facilityName="+center.facilityName;
+		});
+		for(let field of showFields){
+			let td = document.createElement('td');
+			td.innerText = center[field];
+			tr.append(td);
+		}
+		return tr;
+	}
+	
+	function findList(sido = "서울특별시"){
+		tlist.innerHTML=""; // 기존 목록 제거
+		allCenter.forEach(center=>{
+			if(center.sido == sido){
+				tlist.append(makeRow(center));	
+			}
+		});
+	}
+
+</script>
+</body>
+</html>

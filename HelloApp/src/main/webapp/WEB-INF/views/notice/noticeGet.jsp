@@ -115,9 +115,7 @@
 			location.href='loginForm.do';
 			return;
 		}
-		console.log('click',e.target);
-		console.log('reply',document.querySelector('#reply').value);
-		console.log('id','${id}');
+
 		let reply=document.querySelector('#reply').value;
 		// Ajax 호출
 		let xhtp = new XMLHttpRequest();
@@ -125,7 +123,7 @@
 		xhtp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 		xhtp.send('notice_id=${noticeInfo.noticeId}&id=${id}&reply='+reply);
 		xhtp.onload = function(){
-			console.log(xhtp.response);
+
 			let result = JSON.parse(xhtp.response);
 			if(result.retCode=='Success'){
 				let tr = makeTrFunc(result.data);
@@ -169,7 +167,7 @@
 			template.querySelector('td:nth-of-type(4)>button').addEventListener('click',function(e){
 				let replyId=reply.replyId;
 				let replyContent=this.parentElement.parentElement.children[1].children[0].value;
-				console.log(replyId,replyContent);
+
 				let xhtp = new XMLHttpRequest();
 				xhtp.open('post','modifyReply.do');
 				xhtp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
