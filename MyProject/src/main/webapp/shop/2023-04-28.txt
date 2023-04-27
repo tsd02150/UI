@@ -1,0 +1,13 @@
+ProjectName: MyProject
+Package    : com.yedam.common -> 공통관리.
+           : com.yedam.prod.mapper
+		   : com.yedam.prod.domain
+		   : com.yedam.prod.service
+		   : com.yedam.prod.control
+		   : com.yedam.FrontControl -> .do 요청을 처리하는 서블릿.
+JSP        : /webapp/WEB-INF/views/prod/prodList.jsp -> 상품목록화면.
+           : /webapp/WEB-INF/views/prod/prodMain.jsp -> 상품상세화면.
+
+bootstrap: shop-homepage
+
+table: tbl_product (상품코드, 상품명, 상품설명, 가격, 할인가격, 평점)
