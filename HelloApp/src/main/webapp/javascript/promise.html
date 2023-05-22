@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promise</title>
+  <script>
+
+    //서버에 데이터 요청하는 비동기 방식 처리
+    let id='';
+    let name='';
+    setTimeout(function(){
+      id = 'user1';
+      setTimeout(function(){
+        console.log(id);
+        name='사용자1';
+        setTimeout(function(){
+          console.log(name);
+        }, 1000);
+      },500)
+    },1000);
+    console.log(id);
+
+    let promise = new Promise((resolve,reject)=>{
+      setTimeout(function(){
+        resolve('OK');
+      },1000);
+    });
+    promise
+      .then(function(resolve){
+        console.log(resolve);
+        return resolve.toLowerCase();
+      })
+      .then(function(result){
+        console.log(result);
+      })
+      .catch(function(reject){
+        console.log(reject);
+      });
+
+    //fetch
+    let result = fetch('MOCK_DATA.json');
+    result.then(resolve=>resolve.json())
+    .then(result=>{
+      console.log(result);
+    })
+    .catch(err=>console.log(err));
+
+    // promise : async, await
+    async function getServData(){
+      let promise = await fetch('MOCK_DATA.json');
+      let promise1 = await promise.json();
+      console.log(promise1);
+    }
+    console.clear();
+    getServData();
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

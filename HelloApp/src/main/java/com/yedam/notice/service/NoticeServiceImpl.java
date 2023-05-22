@@ -46,4 +46,15 @@ public class NoticeServiceImpl implements NoticeService {
 		return mapper.getCount();
 	}
 
+	@Override
+	public List<NoticeVO> noticeListJson() {
+		return mapper.noticeListJson();
+	}
+
+	@Override
+	public boolean modifyNoticeFile(NoticeVO vo) {
+		return mapper.updateNoticeFile(vo)>0;
+	}
+	
+	
 }

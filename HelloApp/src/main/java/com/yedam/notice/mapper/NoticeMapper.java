@@ -11,10 +11,13 @@ public interface NoticeMapper {
 	public List<NoticeVO> noticeList();
 	public int insertNotice(NoticeVO vo);
 	public int updateNotice(NoticeVO vo);
+	public int updateNoticeFile(NoticeVO vo);
 	public int deleteNotice(int noticeId);
 	//조회수 증가
 	public int updateCount(int noticeId);
 	//페이징리스트
 	public List<NoticeVO> noticeWithPage(int page);
 	public int getCount();
+	
+	public List<NoticeVO> noticeListJson();
 }

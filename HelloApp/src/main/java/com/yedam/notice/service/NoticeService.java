@@ -12,4 +12,8 @@ public interface NoticeService {
 	public boolean modifyNotice(NoticeVO vo);
 	public boolean removeNotice(int noticeId);
 	public int totalCount();
+	public boolean modifyNoticeFile(NoticeVO vo);
+	
+	//json.
+	public List<NoticeVO> noticeListJson();
 }

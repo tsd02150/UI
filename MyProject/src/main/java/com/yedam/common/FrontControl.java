@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.prod.control.ProdListControl;
 import com.yedam.prod.control.ProdMainControl;
+import com.yedam.prod.control.ProductAddControl;
+import com.yedam.prod.control.ProductUploadControl;
 import com.yedam.prod.control.getProdListControl;
 import com.yedam.prod.control.getProductControl;
 import com.yedam.prod.control.getRecommendListControl;
@@ -34,6 +36,10 @@ public class FrontControl extends HttpServlet{
 		map.put("/getProdList.do", new getProdListControl());
 		map.put("/getProduct.do", new getProductControl());
 		map.put("/getRecommendList.do", new getRecommendListControl());
+		//ckeditor 관련
+		map.put("/productAdd.do", new ProductAddControl());
+		//ckeditor 이미지 업로드 처리
+		map.put("/prodUpload.do", new ProductUploadControl());
 	}
 	
 	@Override

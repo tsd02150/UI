@@ -15,7 +15,7 @@ public class NoticeAddFormControl implements Control {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {	
-		return "notice/noticeAddForm.tiles";
+		return "notice/noticeAddForm2.tiles";
 	}
 
 }

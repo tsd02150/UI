@@ -21,12 +21,17 @@ import com.yedam.member.control.removeEventControl;
 import com.yedam.notice.control.AddNoticeControl;
 import com.yedam.notice.control.AddReplyControl;
 import com.yedam.notice.control.GetNoticeControl;
+import com.yedam.notice.control.GetNoticeJsonControl;
 import com.yedam.notice.control.ModifyNoticeControl;
+import com.yedam.notice.control.ModifyNoticeFile;
 import com.yedam.notice.control.ModifyReplyControl;
 import com.yedam.notice.control.NoticeAddFormControl;
 import com.yedam.notice.control.NoticeListControl;
+import com.yedam.notice.control.NoticeListJsonControl;
 import com.yedam.notice.control.RemoveReplyControl;
 import com.yedam.notice.control.ReplyListControl;
+import com.yedam.notice.control.delNoticeJsonControl;
+import com.yedam.notice.control.modifyNoticeJsonControl;
 
 
 public class FrontController extends HttpServlet {
@@ -43,10 +48,15 @@ public class FrontController extends HttpServlet {
 		map.put("/main.do", new MainControl());
 		// 공지사항
 		map.put("/noticeList.do", new NoticeListControl());
+		map.put("/noticeListJson.do", new NoticeListJsonControl()); //json 데이터
 		map.put("/noticeAddForm.do",new NoticeAddFormControl());
 		map.put("/addNotice.do", new AddNoticeControl());
 		map.put("/getNotice.do", new GetNoticeControl());
 		map.put("/modifyNotice.do", new ModifyNoticeControl());
+		map.put("/delNoticeJson.do", new delNoticeJsonControl());
+		map.put("/getNoticeJson.do", new GetNoticeJsonControl());
+		map.put("/modifyNoticeFile.do", new ModifyNoticeFile());
+		map.put("/modifyNoticeJson.do", new modifyNoticeJsonControl());
 		
 		//회원관련
 		map.put("/loginForm.do", new LoginFormControl());
