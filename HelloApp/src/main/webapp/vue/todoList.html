@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="http://unpkg.com/vue@2"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>TO DO List</h1>
+    <list-component v-on:sort-clear="sortClear" v-on:remove-list="checkDataRemove" v-on:click-check="clickCheck" v-on:insert-list="insertList" v-bind:object="todoList" v-bind:checkcnt="checkCnt"></list-component>
+  </div>
+  <script>
+    const EventComponent = {
+      template: `
+        <div>
+          <input type="text" v-model="todoTitle">
+          <input type="text" v-model="todoDate">
+          <div>
+          <button v-on:click="insertList">등록</button>
+          <button v-on:click="checkDataRemove">처리완료 삭제</button>
+          <button v-on:click="sortClear">완료일 순 정렬</button>
+          </div>
+        </div>
+      `,
+      props:['listdata'],
+      data:function(){
+        return{
+          todoTitle:'',
+          todoDate:''
+        }
+      },
+      methods:{
+        insertList:function(){
+          this.$emit('insert-list',this.todoTitle,this.todoDate);
+          this.todoTitle='';
+          this.todoDate='';
+        },
+        checkDataRemove:function(){
+          this.$emit('remove-list');
+        },
+        sortClear:function(){
+          this.$emit('sort-clear');
+        }
+      }
+    }
+    const ListComponent = {
+      template: `
+        <div>
+          <ul>
+            <li v-for="(item,idx) in object">
+              <input type="checkbox" v-model=item.checked v-bind:style="checkStyle" v-on:click="clickCheck(idx)">
+              <span v-if=item.checked v-bind:style="checkStyle">{{item.title}} (완료일{{item.date}})</span>
+              <span v-else>{{item.title}} (완료일{{item.date}})</span>
+              </li>
+          </ul>
+          <event-component v-on:sort-clear="sortClear" v-on:insert-list="insertList" v-on:remove-list="checkDataRemove"></event-component>
+          {{checkcnt}}/{{object.length}}
+        </div>
+      `,
+      props: ['object','checkcnt'],
+      data: function () {
+        return {
+          checked: 0,
+          checkStyle:{textDecoration:'line-through',color:'gray'}
+        }
+      },
+      methods: {
+        insertList:function(title,date){
+          this.$emit('insert-list',title,date);
+        },
+        clickCheck:function(idx){
+          this.$emit('click-check',idx,event.target.checked);
+        },
+        checkDataRemove:function(){
+          this.$emit('remove-list');
+        },
+        sortClear:function(){
+          this.$emit('sort-clear');
+        }
+      },
+      components: {
+        'event-component': EventComponent
+      }
+    }
+    new Vue({
+      el: '#app',
+      data: {
+        todoList: [{
+          checked: false,
+          title: '공부하기',
+          date: "20230526"
+        }],
+        checkCnt:0
+      },
+      methods:{
+        insertList:function(todoTitle,todoDate){
+          this.todoList.push({checked:false,title:todoTitle,date:todoDate});
+        },
+        clickCheck:function(idx,checked){
+          if(checked){
+            this.checkCnt++;
+          }else{
+            this.checkCnt--;
+          }
+          this.todoList[idx].checked = checked;
+        },
+        checkDataRemove:function(){
+          for(let idx=this.todoList.length-1; idx >= 0;idx--){
+            if(this.todoList[idx].checked){
+              this.todoList.splice(idx,1);
+              this.checkCnt--;
+            }
+          }
+        },
+        sortClear:function(){
+          this.todoList.sort(function (a, b) {
+            return a.date < b.date ? -1 : 1;
+          });
+        }
+      },
+      components: {
+        'list-component': ListComponent
+      }
+    })
+  </script>
+</body>
+
+</html>

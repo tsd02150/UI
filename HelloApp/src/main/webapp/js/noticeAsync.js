@@ -2,11 +2,11 @@
  * 
  */
 
- 
+/* 
 async function loadData(){
 	let promise = await fetch('noticeListJson.do');
 	let promise1 = await promise.json(); //json-> object
-	let fieds=['noticeId','noticeTitle','noticeWriter','attachFile']
+	let fields=['noticeId','noticeTitle','noticeWriter','attachFile']
 	promise1.forEach(function(item){
 		console.log(item);
 		let tr = document.createElement('tr');
@@ -22,3 +22,4 @@ async function loadData(){
 document.addEventListener('DOMContentLoaded',function(){
 	loadData();
 })
+*/

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="http://unpkg.com/vue@2"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h3>간단한 게시판</h3>
+    <board-list v-if="isList" v-bind:object="boardArray" v-on:board-remove="boardRemove" v-on:board-read="boardRead"  v-on:board-write="boardWrite"></board-list>
+    <board-read v-if="isRead" v-bind:item="boardInfo" v-on:board-list="boardList"></board-read>
+    <board-write v-if="isWrite" v-bind:object="boardArray" v-on:board-save="boardSave" v-on:board-list="boardList"></board-write>
+  </div>
+
+  <script>
+    const BoardList={
+      template:`
+        <div>
+          <table border="1">
+            <thead>
+              <tr>
+                <th>글번호</th>
+                <th>글제목</th>
+                <th>조회수</th>
+                <th>삭제</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in object">
+                <td>{{item.no}}</td>
+                <td v-on:click="boardRead(item)">{{item.title}}</td>
+                <td>{{item.view}}</td>
+                <td><button v-on:click="boardRemove(object,item)">삭제</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button v-on:click="boardWrite">글쓰기</button>
+        </div>
+      `,
+      methods:{
+        boardWrite:function(){
+          this.$emit('board-write');
+        },
+        boardRead:function(board){
+          // board.view++; 
+          this.$emit('board-read',board);
+        },
+        boardRemove:function(boardList,board){
+          // for(let idx in boardList){
+          //   if(boardList[idx].no==board.no){
+          //     boardList.splice(idx,1);
+          //   }
+          // }
+          this.$emit('board-remove',board)
+        }
+      },
+      props:['object']
+    }
+    const BoardRead={
+      template:`
+        <div>
+          <table border="1">
+            <tr>
+              <th>글제목</th>
+              <td>{{item.title}}</td>
+            </tr>
+            <tr>
+              <td colspan="2">{{item.content}}</td>
+            </tr>
+          </table>
+          <button v-on:click="boardList">목록</button>
+        </div>
+      `,
+      methods:{
+        boardList:function(){
+          this.$emit('board-list');
+        }
+      },
+      props:['item']
+    }
+    const BoardWrite={
+      template:`
+        <div>
+          <table border="1">
+            <tr>
+              <th>글제목</th>
+              <td><input v-model="title"></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <textarea v-model="content"></textarea>
+              </td>
+            </tr>
+          </table>
+          <button v-on:click="boardSave">저장</button>
+          <button v-on:click="boardList">목록</button>
+        </div>
+      `,
+      data:function(){
+        return{
+          title:'',
+          content:''
+        }
+      },
+      methods:{
+        boardSave:function(){
+          this.$emit('board-save',this.title,this.content);
+          this.boardList();
+        },
+        boardList:function(){
+          this.$emit('board-list');
+        }
+      },
+      props:['object']
+    }
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        isList:true,
+        isRead:false,
+        isWrite:false,
+        boardArray:[
+          {no:1,title:'첫번째 글입니다',content:'뷰가 지루합니다',view:1},
+          {no:2,title:'뷰를 활용합시다',content:'뷰의 기능을 익힙시다',view:5},
+          {no:3,title:'리액트 공부합시다',content:'리액트가 좋아요',view:3}
+        ],
+        boardNo:3,
+        boardView:0,
+        boardInfo:{}
+      },
+      methods:{
+        boardList:function(){
+          this.isList=true;
+          this.isRead=false;
+          this.isWrite=false;
+        },
+        boardRead:function(board){
+          this.isList=false;
+          this.isRead=true;
+          this.boardInfo=board;
+
+          for(let idx in this.boardArray){
+            if(this.boardArray[idx].no == this.boardInfo.no){
+              this.boardArray[idx].view++;
+            }
+          }
+        },
+        boardWrite:function(){
+          this.isList=false;
+          this.isWrite=true;
+        },
+        boardSave:function(inputTitle,inputContent){
+          this.boardNo++;
+          this.boardArray.push({no:this.boardNo,title:inputTitle,content:inputContent,view:0});
+        },
+        boardRemove:function(board){
+          for(let idx in this.boardArray){
+            if(this.boardArray[idx].no == board.no){
+              this.boardArray.splice(idx,1);
+            }
+          }
+        }
+      },
+      components:{
+        'board-list':BoardList,
+        'board-read':BoardRead,
+        'board-write':BoardWrite
+      }
+    })
+  </script>
+</body>
+
+</html>
